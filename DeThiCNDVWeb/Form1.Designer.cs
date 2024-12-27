@@ -43,6 +43,16 @@
             this.comboBox_thang = new System.Windows.Forms.ComboBox();
             this.comboBox_nam = new System.Windows.Forms.ComboBox();
             this.textBox_soLuong = new System.Windows.Forms.TextBox();
+            this.textBox_maMatHang = new System.Windows.Forms.TextBox();
+            this.comboBox_donViTinh = new System.Windows.Forms.ComboBox();
+            this.textBox_donGia = new System.Windows.Forms.TextBox();
+            this.textBox_hinhAnh = new System.Windows.Forms.TextBox();
+            this.button_browse = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button_nhap = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -188,16 +198,94 @@
             this.textBox_soLuong.Size = new System.Drawing.Size(248, 29);
             this.textBox_soLuong.TabIndex = 2;
             // 
+            // textBox_maMatHang
+            // 
+            this.textBox_maMatHang.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_maMatHang.Location = new System.Drawing.Point(617, 89);
+            this.textBox_maMatHang.Name = "textBox_maMatHang";
+            this.textBox_maMatHang.Size = new System.Drawing.Size(248, 29);
+            this.textBox_maMatHang.TabIndex = 2;
+            // 
+            // comboBox_donViTinh
+            // 
+            this.comboBox_donViTinh.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBox_donViTinh.FormattingEnabled = true;
+            this.comboBox_donViTinh.Location = new System.Drawing.Point(616, 145);
+            this.comboBox_donViTinh.Name = "comboBox_donViTinh";
+            this.comboBox_donViTinh.Size = new System.Drawing.Size(249, 32);
+            this.comboBox_donViTinh.TabIndex = 3;
+            // 
+            // textBox_donGia
+            // 
+            this.textBox_donGia.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_donGia.Location = new System.Drawing.Point(616, 206);
+            this.textBox_donGia.Name = "textBox_donGia";
+            this.textBox_donGia.Size = new System.Drawing.Size(248, 29);
+            this.textBox_donGia.TabIndex = 2;
+            // 
+            // textBox_hinhAnh
+            // 
+            this.textBox_hinhAnh.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_hinhAnh.Location = new System.Drawing.Point(616, 264);
+            this.textBox_hinhAnh.Name = "textBox_hinhAnh";
+            this.textBox_hinhAnh.Size = new System.Drawing.Size(130, 29);
+            this.textBox_hinhAnh.TabIndex = 2;
+            // 
+            // button_browse
+            // 
+            this.button_browse.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_browse.Location = new System.Drawing.Point(752, 264);
+            this.button_browse.Name = "button_browse";
+            this.button_browse.Size = new System.Drawing.Size(112, 27);
+            this.button_browse.TabIndex = 5;
+            this.button_browse.Text = "Browse";
+            this.button_browse.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(886, 89);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(164, 202);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 6;
+            this.pictureBox1.TabStop = false;
+            // 
+            // button_nhap
+            // 
+            this.button_nhap.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_nhap.Location = new System.Drawing.Point(512, 311);
+            this.button_nhap.Name = "button_nhap";
+            this.button_nhap.Size = new System.Drawing.Size(100, 36);
+            this.button_nhap.TabIndex = 7;
+            this.button_nhap.Text = "Nhập";
+            this.button_nhap.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(12, 364);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(1095, 255);
+            this.dataGridView1.TabIndex = 8;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.ClientSize = new System.Drawing.Size(1119, 574);
+            this.ClientSize = new System.Drawing.Size(1119, 631);
+            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.button_nhap);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.button_browse);
             this.Controls.Add(this.comboBox_nam);
             this.Controls.Add(this.comboBox_thang);
             this.Controls.Add(this.comboBox_ngay);
+            this.Controls.Add(this.comboBox_donViTinh);
             this.Controls.Add(this.comboBox_nhaCungCap);
+            this.Controls.Add(this.textBox_hinhAnh);
+            this.Controls.Add(this.textBox_donGia);
+            this.Controls.Add(this.textBox_maMatHang);
             this.Controls.Add(this.textBox_soLuong);
             this.Controls.Add(this.textBox_tenMatHang);
             this.Controls.Add(this.label5);
@@ -211,6 +299,8 @@
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "FormHangHoa";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -233,5 +323,13 @@
         private System.Windows.Forms.ComboBox comboBox_thang;
         private System.Windows.Forms.ComboBox comboBox_nam;
         private System.Windows.Forms.TextBox textBox_soLuong;
+        private System.Windows.Forms.TextBox textBox_maMatHang;
+        private System.Windows.Forms.ComboBox comboBox_donViTinh;
+        private System.Windows.Forms.TextBox textBox_donGia;
+        private System.Windows.Forms.TextBox textBox_hinhAnh;
+        private System.Windows.Forms.Button button_browse;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button button_nhap;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }
