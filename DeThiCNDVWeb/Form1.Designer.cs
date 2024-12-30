@@ -39,9 +39,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.textBox_tenMatHang = new System.Windows.Forms.TextBox();
             this.comboBox_nhaCungCap = new System.Windows.Forms.ComboBox();
-            this.comboBox_ngay = new System.Windows.Forms.ComboBox();
-            this.comboBox_thang = new System.Windows.Forms.ComboBox();
-            this.comboBox_nam = new System.Windows.Forms.ComboBox();
             this.textBox_soLuong = new System.Windows.Forms.TextBox();
             this.textBox_maMatHang = new System.Windows.Forms.TextBox();
             this.comboBox_donViTinh = new System.Windows.Forms.ComboBox();
@@ -51,6 +48,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button_nhap = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -163,33 +161,6 @@
             this.comboBox_nhaCungCap.Size = new System.Drawing.Size(249, 32);
             this.comboBox_nhaCungCap.TabIndex = 3;
             // 
-            // comboBox_ngay
-            // 
-            this.comboBox_ngay.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox_ngay.FormattingEnabled = true;
-            this.comboBox_ngay.Location = new System.Drawing.Point(195, 206);
-            this.comboBox_ngay.Name = "comboBox_ngay";
-            this.comboBox_ngay.Size = new System.Drawing.Size(74, 32);
-            this.comboBox_ngay.TabIndex = 4;
-            // 
-            // comboBox_thang
-            // 
-            this.comboBox_thang.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox_thang.FormattingEnabled = true;
-            this.comboBox_thang.Location = new System.Drawing.Point(283, 206);
-            this.comboBox_thang.Name = "comboBox_thang";
-            this.comboBox_thang.Size = new System.Drawing.Size(74, 32);
-            this.comboBox_thang.TabIndex = 4;
-            // 
-            // comboBox_nam
-            // 
-            this.comboBox_nam.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox_nam.FormattingEnabled = true;
-            this.comboBox_nam.Location = new System.Drawing.Point(370, 206);
-            this.comboBox_nam.Name = "comboBox_nam";
-            this.comboBox_nam.Size = new System.Drawing.Size(74, 32);
-            this.comboBox_nam.TabIndex = 4;
-            // 
             // textBox_soLuong
             // 
             this.textBox_soLuong.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -240,6 +211,7 @@
             this.button_browse.TabIndex = 5;
             this.button_browse.Text = "Browse";
             this.button_browse.UseVisualStyleBackColor = true;
+            this.button_browse.Click += new System.EventHandler(this.button_browse_Click);
             // 
             // pictureBox1
             // 
@@ -259,6 +231,7 @@
             this.button_nhap.TabIndex = 7;
             this.button_nhap.Text = "Nhập";
             this.button_nhap.UseVisualStyleBackColor = true;
+            this.button_nhap.Click += new System.EventHandler(this.button_nhap_Click);
             // 
             // dataGridView1
             // 
@@ -268,19 +241,25 @@
             this.dataGridView1.Size = new System.Drawing.Size(1095, 255);
             this.dataGridView1.TabIndex = 8;
             // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.CustomFormat = "dd/MM/yyyy";
+            this.dateTimePicker1.Location = new System.Drawing.Point(195, 206);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(249, 20);
+            this.dateTimePicker1.TabIndex = 9;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.ClientSize = new System.Drawing.Size(1119, 631);
+            this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button_nhap);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.button_browse);
-            this.Controls.Add(this.comboBox_nam);
-            this.Controls.Add(this.comboBox_thang);
-            this.Controls.Add(this.comboBox_ngay);
             this.Controls.Add(this.comboBox_donViTinh);
             this.Controls.Add(this.comboBox_nhaCungCap);
             this.Controls.Add(this.textBox_hinhAnh);
@@ -319,9 +298,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox textBox_tenMatHang;
         private System.Windows.Forms.ComboBox comboBox_nhaCungCap;
-        private System.Windows.Forms.ComboBox comboBox_ngay;
-        private System.Windows.Forms.ComboBox comboBox_thang;
-        private System.Windows.Forms.ComboBox comboBox_nam;
         private System.Windows.Forms.TextBox textBox_soLuong;
         private System.Windows.Forms.TextBox textBox_maMatHang;
         private System.Windows.Forms.ComboBox comboBox_donViTinh;
@@ -331,5 +307,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button button_nhap;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }

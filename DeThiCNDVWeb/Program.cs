@@ -16,7 +16,7 @@ namespace DeThiCNDVWeb
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormHangHoa());
+            Application.Run(new Form1());
         }
     }
 }
