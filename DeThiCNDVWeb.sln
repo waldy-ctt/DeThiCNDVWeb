@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeThiCNDVWeb", "DeThiCNDVWeb\DeThiCNDVWeb.csproj", "{7B8C7151-B076-4741-B77D-835656337F0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeThiCNDVWebSerivce", "DeThiCNDVWebSerivce\DeThiCNDVWebSerivce.csproj", "{4CD54240-B858-48C9-8088-334D8FEF2B6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{7B8C7151-B076-4741-B77D-835656337F0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B8C7151-B076-4741-B77D-835656337F0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B8C7151-B076-4741-B77D-835656337F0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CD54240-B858-48C9-8088-334D8FEF2B6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CD54240-B858-48C9-8088-334D8FEF2B6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CD54240-B858-48C9-8088-334D8FEF2B6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CD54240-B858-48C9-8088-334D8FEF2B6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

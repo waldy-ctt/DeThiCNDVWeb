@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,18 +8,18 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Net;
 
 namespace DeThiCNDVWeb
 {
     public partial class Form1 : Form
     {
-        //Inital Public Variable
-        SqlConnection con;
-        SqlDataAdapter da;
-        SqlCommand cmd;
         DataTable matHangTable = new DataTable(), nhaCungCapTable = new DataTable();
 
         //This for browse button to choose image
@@ -26,60 +27,135 @@ namespace DeThiCNDVWeb
 
         //This is image that processing
         byte[] image;
+        string base64ImageString;
 
-        String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\clock\\Usage\\DeThiCNDVWeb\\DeThiCNDVWeb\\Database\\Database1.mdf;Integrated Security=True";
-        //I dont give a fuck about this project, but in an actual project that gonna be public, this suppose to be in the env
-        //To get connection string, open the Database1.mdf, go to Server Explorer tab and right click on it, propertise and you would find it there
+        private async void fetchGetItem()
+        {
+            try
+            {
+                resetMatHangTable();
+                HttpClient client = new HttpClient();
+                String url = "https://localhost:7232/getItem";
+                HttpResponseMessage responseMessage = await client.GetAsync(url);
+
+                responseMessage.EnsureSuccessStatusCode();
+                String responseBody = await responseMessage.Content.ReadAsStringAsync();
+
+                var jsonDoc = JsonDocument.Parse(responseBody);
+                String value = jsonDoc.RootElement.GetProperty("value").GetString();
+
+                ConvertStringToDataTable(value);
+
+                dataGridView1.DataSource = null;
+                dataGridView1.DataSource = matHangTable;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex);
+            }
+        }
+
+        private async void fetchGetNCC()
+        {
+            try
+            {
+                resetNhaCungCapTable();
+                HttpClient client = new HttpClient();
+                String url = "https://localhost:7232/getSup";
+                HttpResponseMessage responseMessage = await client.GetAsync(url);
+
+                responseMessage.EnsureSuccessStatusCode();
+                String responseBody = await responseMessage.Content.ReadAsStringAsync();
+
+                var jsonDoc = JsonDocument.Parse(responseBody);
+                String value = jsonDoc.RootElement.GetProperty("value").GetString();
+                Console.WriteLine("ncc: " + value);
+
+                String[] ncc = value.Split(new char[] { '|' });
+
+                for (int i = 0; i < ncc.Length; i += 2)
+                {
+                    if (i + 1 < ncc.Length)
+                    {
+                        string mancc = ncc[i].Trim(); string tenncc = ncc[i + 1].Trim(); if (!string.IsNullOrEmpty(mancc) && !string.IsNullOrEmpty(tenncc)) 
+                        {
+                            DataRow dr = nhaCungCapTable.NewRow();
+                            dr["mancc"] = mancc;
+                            dr["tenncc"] = tenncc; 
+                            nhaCungCapTable.Rows.Add(dr);
+                            comboBox_nhaCungCap.Items.Add($"{mancc} - {tenncc}");
+                            Console.WriteLine($"ddddd: {mancc} - {tenncc}");
+                        }
+                    }
+                }
+
+                //comboBox_nhaCungCap.DataSource = null;
+                //comboBox_nhaCungCap.DataSource = nhaCungCapTable;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex);
+            }
+        }
+
+        private void ConvertStringToDataTable(string data)
+        {
+            string[] rows = data.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string row in rows)
+            {
+                string[] columns = row.Split('|');
+                byte[] imageData = Convert.FromBase64String(columns[6]);
+                Image image = ByteArrayToImage(imageData);
+                DataRow dataRow = matHangTable.NewRow();
+                dataRow["Mã Hàng"] = columns[0];
+                dataRow["Tên Hàng"] = columns[1];
+                dataRow["Đơn Vị Tính"] = columns[2];
+                dataRow["Ngày Nhập"] = DateTime.Parse(columns[3]);
+                dataRow["Đơn Giá"] = decimal.Parse(columns[4]);
+                dataRow["Số Lượng"] = int.Parse(columns[5]);
+                dataRow["Hình Ảnh"] = image;
+                dataRow["Mã Nhà Cung Cấp"] = columns[7];
+                matHangTable.Rows.Add(dataRow);
+            }
+        }
+
+        private Image ByteArrayToImage(byte[] byteArray)
+        {
+            using (MemoryStream ms = new MemoryStream(byteArray))
+            {
+                return Image.FromStream(ms);
+            }
+        }
+
+        public void resetMatHangTable()
+        {
+            matHangTable = new DataTable();
+
+            matHangTable.Columns.Add("Mã Hàng");
+            matHangTable.Columns.Add("Tên Hàng");
+            matHangTable.Columns.Add("Đơn Vị Tính");
+            matHangTable.Columns.Add("Ngày Nhập");
+            matHangTable.Columns.Add("Đơn Giá");
+            matHangTable.Columns.Add("Số Lượng");
+            matHangTable.Columns.Add("Hình Ảnh", typeof(Image));
+            matHangTable.Columns.Add("Mã Nhà Cung Cấp");
+
+        }
+
+        public void resetNhaCungCapTable()
+        {
+            nhaCungCapTable = new DataTable();
+
+            nhaCungCapTable.Columns.Add("mancc");
+            nhaCungCapTable.Columns.Add("tenncc");
+        }
 
         public Form1()
         {
             InitializeComponent();
+
             LoadData();
-        }
-
-        //Create connection to database
-        public void ConnectDatabase()
-        {
-            try
-            {
-                con = new SqlConnection(connectionString);
-                con.Open();
-            }
-            catch (SqlException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-
-        public void DisconnectDatabase()
-        {
-            try
-            {
-                con.Close();
-            }
-            catch (SqlException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-
-        public void GetData()
-        {
-            //Im just writting this comment because ngl without vim motion, everything going kinda slow   
-
-            ConnectDatabase();
-
-            cmd = new SqlCommand("SELECT * FROM MATHANG", con);
-            cmd.CommandType = CommandType.Text;
-            da = new SqlDataAdapter(cmd);
-            da.Fill(matHangTable);
-
-            cmd = new SqlCommand("SELECT * FROM NHACUNGCAP", con);
-            cmd.CommandType = CommandType.Text;
-            da = new SqlDataAdapter(cmd);
-            da.Fill(nhaCungCapTable);
-
-            DisconnectDatabase();
         }
 
         private void button_browse_Click(object sender, EventArgs e)
@@ -102,10 +178,12 @@ namespace DeThiCNDVWeb
                 image = new byte[fs.Length];
                 fs.Read(image, 0, image.Length);
                 fs.Close();
+
+                base64ImageString = Convert.ToBase64String(image);
             }
             catch (Exception ex)
             {
-                if(ex is OutOfMemoryException)
+                if (ex is OutOfMemoryException)
                 {
                     MessageBox.Show("Ảnh không hợp lệ, vui lòng thử tải ảnh hoặc chọn ảnh khác");
                 }
@@ -120,10 +198,12 @@ namespace DeThiCNDVWeb
 
         public void saveImageToUrl()
         {
-            if (!Directory.Exists("Images")) {
+            if (!Directory.Exists("Images"))
+            {
                 Directory.CreateDirectory("Images");
             }
-            if (openFile.FileName != "") {
+            if (openFile.FileName != "")
+            {
                 switch (Path.GetExtension(openFile.FileName))
                 {
                     case ".jpg":
@@ -147,20 +227,15 @@ namespace DeThiCNDVWeb
 
         public void LoadData()
         {
-            GetData();
-
             comboBox_donViTinh.Items.Add("VNĐ");
             comboBox_donViTinh.Items.Add("USD");
             comboBox_donViTinh.Items.Add("YEN");
             comboBox_donViTinh.Items.Add("Canada USD");
             comboBox_donViTinh.Items.Add("WON");
 
-            foreach (DataRow nhaCungCap in nhaCungCapTable.Rows)
-            {
-                comboBox_nhaCungCap.Items.Add(nhaCungCap.ItemArray[0]);
-            }
+            fetchGetNCC();
 
-            dataGridView1.DataSource = matHangTable;
+            fetchGetItem();
         }
 
         private void resetInput()
@@ -171,13 +246,12 @@ namespace DeThiCNDVWeb
             textBox_soLuong.Clear();
             textBox_tenMatHang.Clear();
             comboBox_donViTinh.SelectedIndex = 0;
-            //comboBox_nam.SelectedIndex = 0;
-            //comboBox_ngay.SelectedIndex = 0;
-            //comboBox_thang.SelectedIndex = 0;
             pictureBox1.Image = null;
+
+            dataGridView1.Refresh();
         }
 
-        private void button_nhap_Click(object sender, EventArgs e)
+        private async void button_nhap_Click(object sender, EventArgs e)
         {
             try
             {
@@ -187,33 +261,53 @@ namespace DeThiCNDVWeb
                     return;
                 }
 
-                ConnectDatabase();
+                var data = new
+                {
+                    id = textBox_maMatHang.Text,
+                    name = textBox_tenMatHang.Text,
+                    currency = comboBox_donViTinh.Text,
+                    date = dateTimePicker1.Value,
+                    price = int.Parse(textBox_donGia.Text),
+                    amount = int.Parse(textBox_soLuong.Text),
+                    image = base64ImageString,
+                    mancc = comboBox_nhaCungCap.Text,
+                };
 
-                cmd = new SqlCommand("INSERT INTO MATHANG(MAMH, TENMH, DVT, NGAYNHAP, DONGIA, SOLUONG, HINHANH, MANCC) VALUES (@MAMH, @TENMH, @DVT, @NGAYNHAP, @DONGIA, @SOLUONG, @HINHANH, @MANCC)", con);
-                cmd.Parameters.Add("@MAMH", SqlDbType.VarChar).Value = textBox_maMatHang.Text;
-                cmd.Parameters.Add("@TENMH", SqlDbType.NVarChar).Value = textBox_tenMatHang.Text;
-                cmd.Parameters.Add("@DVT", SqlDbType.NVarChar).Value = comboBox_donViTinh.Text;
-                cmd.Parameters.Add("@NGAYNHAP", SqlDbType.Date).Value = dateTimePicker1.Value;
-                cmd.Parameters.Add("@DONGIA", SqlDbType.Int).Value = Int32.Parse(textBox_donGia.Text);
-                cmd.Parameters.Add("@SOLUONG", SqlDbType.Int).Value = Int32.Parse(textBox_soLuong.Text);
-                cmd.Parameters.Add("@HINHANH", SqlDbType.Image).Value = image;
-                cmd.Parameters.Add("@MANCC", SqlDbType.VarChar).Value = comboBox_nhaCungCap.Text;
+                String jsonData = JsonSerializer.Serialize(data);
 
-                cmd.ExecuteNonQuery();
+                using (HttpClient client = new HttpClient())
+                {
+                    string url = "https://localhost:7232/postItem";
 
-                DisconnectDatabase();
+                    var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-                saveImageToUrl();
+                    try
+                    {
+                        HttpResponseMessage responseMessage = await client.PostAsync(url, content);
+                        responseMessage.EnsureSuccessStatusCode();
+                        String response = await responseMessage.Content.ReadAsStringAsync();
+                        MessageBox.Show(response);
+                        if (responseMessage.StatusCode == HttpStatusCode.OK)
+                        {
+                            LoadData();
+                            resetInput();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error: " + ex.Message);
+                    }
+                }
 
-                LoadData();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 if (ex is OverflowException)
                 {
                     MessageBox.Show("Số lượng và đơn giá không thể vượt quá 2,147,483,647");
                 }
-                else {
+                else
+                {
                     MessageBox.Show(ex.Message, "Show this to developer");
                 }
 
